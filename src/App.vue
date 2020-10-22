@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <h1>test</h1>
+    <linetest></linetest>
   </div>
 </template>
 
 <script>
+import Linetest from '@/components/Linetest.vue';
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Linetest
+  }
 }
 </script>
 
