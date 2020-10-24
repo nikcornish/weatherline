@@ -2,14 +2,29 @@
 import { Bar } from 'vue-chartjs';
 export default {
   extends: Bar,
+  props: ['chartdata'],
+  computed: {
+    forecastArray() {
+      return this.chartdata.forecast.forecastday;
+    },
+    location() {
+      return this.chartdata.location.name
+    },
+    temps() {
+      return this.forecastArray.map(entry => Math.floor(entry.day.maxtemp_c))
+    },
+    summaries() {
+      return this.forecastArray.map(entry => entry.day.condition.text)
+    }
+  },
   mounted() {
     this.renderChart({
-      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+      labels: this.summaries,
       datasets: [
         { 
-          label: 'Commits', 
-          data: [10, 20, 30, 55], 
-          backgroundColor: 'blue',
+          label: this.location, 
+          data: this.temps,
+          backgroundColor: 'grey',
         }
       ],
     }, {
@@ -19,7 +34,8 @@ export default {
           yAxes: [
             { 
               ticks: {
-                beginAtZero: true
+                beginAtZero: true,
+                max: 30
               }
             }
           ]
